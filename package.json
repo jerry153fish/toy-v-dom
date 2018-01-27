@@ -4,7 +4,7 @@
   "description": "Toy Vitual Dom",
   "main": "index.js",
   "scripts": {
-    "test": "npm test",
+    "test": "mocha --recursive",
     "build": "webpack"
   },
   "keywords": [
@@ -22,8 +22,10 @@
     "chai": "^4.1.2",
     "clean-webpack-plugin": "^0.1.17",
     "jsdom": "^11.5.1",
+    "jsdom-global": "^3.0.2",
     "mocha": "^5.0.0",
     "mocha-jsdom": "^1.1.0",
+    "ramda": "^0.25.0",
     "sinon": "^4.1.6",
     "sinon-chai": "^2.14.0",
     "uglifyjs-webpack-plugin": "^1.1.6",
