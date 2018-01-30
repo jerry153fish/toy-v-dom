@@ -55,7 +55,12 @@ function updatePatches(realDom, currentPatches) {
                 setProps(realDom, currentPatch.props)
                 break
             case TEXT:
-                realDom.textContent = currentPatch.content
+                if (realDom.textContent) {
+                    realDom.textContent = currentPatch.content
+                } else {
+                    // ie text
+                    realDom.nodeValue = currentPatch.content
+                }
                 break
             default:
                 throw new Error('Unknown patch type ' + currentPatch.type)
@@ -69,7 +74,7 @@ function setAttr (realDom, key, value) {
         realDom.style.cssText = value
         break
       case 'value':
-        var tagName = realDom.tagName || ''
+        let tagName = node.tagName || ''
         tagName = tagName.toLowerCase()
         if ( tagName === 'input' || tagName === 'textarea') {
             realDom.value = value
@@ -85,7 +90,7 @@ function setAttr (realDom, key, value) {
   }
 
 function setProps(realDom, props) {
-    for (var key in props) {
+    for (let key in props) {
         if (props[key] === void 0) {
             realDom.removeAttribute(key)
         } else {
@@ -96,9 +101,20 @@ function setProps(realDom, props) {
 }
 
 function reorderChildren(realDom, moves) {
+    let realDomChildren = realDom.childNodes || []
     let maps = {}
 
-    realDom.childNodes.forEach(node => {
+    // flat real dom
+    realDomChildren.forEach(node => {
+        /* node type 
+         * 1: An Element node such as <p> or <div>.
+         * 3: The actual Text of Element or Attr.
+         * 7: A ProcessingInstruction of an XML document such as <?xml-stylesheet ... ?> declaration.
+         * 8: A Comment node.
+         * 9: A Document node.
+         * 10: A DocumentType node e.g. <!DOCTYPE html> for HTML5 documents.
+         * 11: A DocumentFragment node.
+         */
         if (node.nodeType === 1) {
             let key = node.getAttribute('key')
             if (key) {
@@ -110,18 +126,18 @@ function reorderChildren(realDom, moves) {
     moves.forEach(move => {
         let index = move.index
         if (move.type === 0) { // remove item
-            if (staticNodeList[index] === node.childNodes[index]) { // maybe have been removed for inserting
-                node.removeChild(node.childNodes[index])
+            if (realDomChildren[index] === realDom.childNodes[index]) { // maybe have been removed for inserting
+                realDom.removeChild(realDom.childNodes[index])
             }
-            staticNodeList.splice(index, 1)
+            realDomChildren.splice(index, 1)
         } else if (move.type === 1) { // insert item
-            var insertNode = maps[move.item.key]
+            let insertNode = maps[move.item.key]
                 ? maps[move.item.key].cloneNode(true) // reuse old item
                 : (typeof move.item === 'object')
                     ? move.item.render()
                     : document.createTextNode(move.item)
-            staticNodeList.splice(index, 0, insertNode)
-            node.insertBefore(insertNode, node.childNodes[index] || null)
+            realDomChildren.splice(index, 0, insertNode)
+            realDom.insertBefore(insertNode, realDom.childNodes[index] || null)
         }
     })
   }
