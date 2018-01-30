@@ -1,7 +1,6 @@
-lanuage: node_js
+language: node_js
 cache: yarn
-node_js:
-  - "7"
+node_js: stable
 install:
   - npm install
 script:

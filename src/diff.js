@@ -1,3 +1,4 @@
+const reorder = require('./reorder').reorderChildren
 /**
  * virtual possible mutations 
  */
@@ -7,7 +8,7 @@ const TEXT    = 2
 const REORDER = 3
 
 /**
- * dfsTravel Travel virtual node 
+ * diff methods to get patches
  * @param  { Object } oldVDom
  * @param  { Object } newVDom
  */
@@ -46,7 +47,7 @@ function dfsTravel (oldVDom, newVDom, uid, patches) {
       currentPatch.push({ type: PROPS, props: propsPatches })
     }
     // compare the child array
-    diffChildren(oldVDom.children, newVDom.children, uid, patches)
+    diffChildren(oldVDom.children, newVDom.children, uid, patches, currentPatch)
   }
   else {
     currentPatch.push({ type: REPLACE, node: newVDom})
@@ -73,6 +74,13 @@ function isString (value) {
  * @param  { Array } currentPatch - array of patches contains mutations
  */
 function diffChildren (oldChildren, newChildren, puid, patches, currentPatch) {
+  let reordered = reorder(oldChildren, newChildren)
+  let moves = reordered.moves
+  newChildren = reordered.reorderedNewChildren
+  if (moves.length > 0) {
+    let reorderPatch = { type: REORDER, moves: moves }
+    currentPatch.push(reorderPatch)
+  }
   let leftNode = null
   let currentNodeIndex = puid
   oldChildren.forEach(function (child, i) {
