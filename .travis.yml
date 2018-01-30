@@ -1,0 +1,8 @@
+lanuage: node_js
+cache: yarn
+node_js:
+  - "7"
+install:
+  - npm install
+script:
+  - npm test
