@@ -1,4 +1,10 @@
 module.exports = class ToyVDom {
+    /**
+     * dfsTravel Travel virtual node 
+     * @param  { String } tageName
+     * @param  { Object } props
+     * @param  { Array  } children
+     */
     constructor(tagName, props, children) {
         this.tagName = tagName
         this.props = props
@@ -37,3 +43,4 @@ module.exports = class ToyVDom {
         return el
     }
   }
+  
