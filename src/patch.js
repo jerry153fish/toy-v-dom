@@ -39,6 +39,11 @@ function dfsTravel(realDom, walker, patches) {
     }
 }
 
+/**
+ * update patches to the real dom
+ * @param  { DOM Object } realDom
+ * @param  { Array } currentPatches
+ */
 function updatePatches(realDom, currentPatches) {
     currentPatches.forEach(currentPatch => {
         switch (currentPatch.type) {
