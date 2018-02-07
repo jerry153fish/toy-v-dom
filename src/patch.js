@@ -106,7 +106,7 @@ function setProps(realDom, props) {
 }
 
 function reorderChildren(realDom, moves) {
-    let realDomChildren = realDom.childNodes || []
+    let realDomChildren = [...realDom.childNodes] || []
     let maps = {}
 
     // flat real dom
@@ -141,8 +141,11 @@ function reorderChildren(realDom, moves) {
                 : (typeof move.item === 'object')
                     ? move.item.render()
                     : document.createTextNode(move.item)
+            console.log(realDomChildren)
             realDomChildren.splice(index, 0, insertNode)
             realDom.insertBefore(insertNode, realDom.childNodes[index] || null)
         }
     })
-  }
+}
+
+module.exports = patch
