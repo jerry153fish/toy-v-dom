@@ -1,6 +1,6 @@
 {
   "name": "toy-v-dom",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Toy Virtual Dom",
   "main": "index.js",
   "scripts": {
