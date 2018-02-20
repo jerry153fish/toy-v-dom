@@ -1,17 +1,21 @@
 {
   "name": "toy-v-dom",
   "version": "1.0.0",
-  "description": "Toy Vitual Dom",
+  "description": "Toy Virtual Dom",
   "main": "index.js",
   "scripts": {
     "test": "mocha --recursive",
     "build": "webpack"
   },
   "keywords": [
-    "virutal",
+    "virtual",
     "dom",
     "es6"
   ],
+  "repository": { 
+    "type" : "git",
+    "url" : "git@github.com:jerry153fish/toy-v-dom.git"
+  },
   "author": "Jerry Chen",
   "license": "MIT",
   "dependencies": {
