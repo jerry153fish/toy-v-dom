@@ -1,9 +1,9 @@
 const chai = require('chai')
 const expect = chai.expect
 const reorder = require('../src/reorder')
-const ToyVDom = require('../src/vdom')
-const diff = require('../src/diff')
-const patch = require('../src/patch')
+const { ToyVDom, diff, patch }= require('../index')
+// const diff = require('../src/diff')
+// const patch = require('../src/patch')
 
 
 const jsdom = require('jsdom')
@@ -13,7 +13,6 @@ const { JSDOM } = jsdom
 const dom = new JSDOM('<!DOCTYPE html><html><head></head><body></body></html>')
 global.window = dom.window
 global.document = dom.window.document
-
 
 describe("patch method test", function() {
     let oldNode = new ToyVDom('div', { class: 'root', id: 'top'}, [
